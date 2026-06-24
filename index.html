@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="style.css">
+<title>Calculadora Científica</title>
+
+</head>
+<body>
+
+<div class="calc">
+
+  <div class="status">
+    <span class="badge badge-mode" id="badgeMode">RAD</span>
+    <span class="badge badge-mem"  id="badgeMem">M</span>
+  </div>
+
+  <div class="display">
+    <div class="display-hist"   id="dHist"></div>
+    <div class="display-expr"   id="dExpr"></div>
+    <div class="display-result" id="dResult">0</div>
+  </div>
+
+  <p class="section-label">científico</p>
+  <div class="grid grid-5">
+    <button class="fn" onclick="ins('sin(')">sin</button>
+    <button class="fn" onclick="ins('cos(')">cos</button>
+    <button class="fn" onclick="ins('tan(')">tan</button>
+    <button class="fn" onclick="ins('sqrt(')">√</button>
+    <button class="fn" onclick="ins('log(')">log</button>
+
+    <button class="fn" onclick="ins('asin(')">asin</button>
+    <button class="fn" onclick="ins('acos(')">acos</button>
+    <button class="fn" onclick="ins('atan(')">atan</button>
+    <button class="fn" onclick="ins('cbrt(')">∛</button>
+    <button class="fn" onclick="ins('ln(')">ln</button>
+
+    <button class="const" onclick="ins('pi')">π</button>
+    <button class="const" onclick="ins('e')">e</button>
+    <button class="fn"    onclick="ins('abs(')">|x|</button>
+    <button class="fn"    onclick="ins('exp(')">eˣ</button>
+    <button class="fn"    onclick="ins('log2(')">log₂</button>
+  </div>
+
+
+  <p class="section-label">operações</p>
+  <div class="grid grid-5">
+    <button class="clr" onclick="clearAll()">C</button>
+    <button class="clr" onclick="del()">⌫</button>
+    <button class="op"  onclick="ins('%')">%</button>
+    <button class="op"  onclick="ins('^')">^</button>
+    <button class="op"  onclick="smartParen()">( )</button>
+
+    <button onclick="ins('7')">7</button>
+    <button onclick="ins('8')">8</button>
+    <button onclick="ins('9')">9</button>
+    <button class="op" onclick="ins('*')">×</button>
+    <button class="fn" onclick="toggleMode()" id="btnMode">DEG</button>
+
+    <button onclick="ins('4')">4</button>
+    <button onclick="ins('5')">5</button>
+    <button onclick="ins('6')">6</button>
+    <button class="op" onclick="ins('/')">÷</button>
+    <button class="const" onclick="insAns()">ANS</button>
+
+    <button onclick="ins('1')">1</button>
+    <button onclick="ins('2')">2</button>
+    <button onclick="ins('3')">3</button>
+    <button class="op" onclick="ins('-')">−</button>
+    <button class="const" onclick="memStore()" title="Salvar na memória">MS</button>
+
+    <button class="span2" onclick="ins('0')">0</button>
+    <button onclick="ins('.')">.</button>
+    <button class="eq span2" onclick="calculate()">=</button>
+  </div>
+
+  <!-- Memória + histórico -->
+  <p class="section-label">memória · histórico</p>
+  <div class="grid grid-4">
+    <button class="const" onclick="memStore()"  title="Salvar">MS</button>
+    <button class="const" onclick="memRecall()" title="Recuperar">MR</button>
+    <button class="const" onclick="memClear()"  title="Limpar">MC</button>
+    <button class="const" onclick="memAdd()"    title="Somar">M+</button>
+  </div>
+  <div style="margin-top:6px">
+    <button style="width:100%;font-size:11px;color:#484f58;height:32px;" onclick="toggleHist()">
+      histórico ▾
+    </button>
+    <div class="hist-panel" id="histPanel"></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

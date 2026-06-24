@@ -1,0 +1,156 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #080c10;
+    font-family: 'Consolas', 'Courier New', monospace;
+  }
+
+  .calc {
+    width: 380px;
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 16px;
+    padding: 20px;
+    user-select: none;
+  }
+
+
+  .status {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    min-height: 22px;
+  }
+  .badge {
+    font-size: 10px;
+    letter-spacing: .5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .badge-mode  { color: #4a9eff; background: #4a9eff14; border-color: #4a9eff33; }
+  .badge-mem   { color: #f7c94a; background: #f7c94a14; border-color: #f7c94a33; display: none; }
+
+  .display {
+    background: #060e18;
+    border: 1px solid #1a3a5c;
+    border-radius: 10px;
+    padding: 14px 16px 12px;
+    margin-bottom: 14px;
+    min-height: 108px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .display-hist {
+    font-size: 11px;
+    color: #2a3a4a;
+    text-align: right;
+    min-height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .display-expr {
+    font-size: 12px;
+    color: #4a9eff88;
+    text-align: right;
+    min-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .display-result {
+    font-size: 32px;
+    font-weight: 300;
+    color: #4af7c4;
+    text-align: right;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+    margin-top: 4px;
+  }
+  .display-result.error { color: #f85149; font-size: 18px; }
+
+  .grid {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  button {
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    background: #161b22;
+    color: #c9d1d9;
+    font-family: inherit;
+    font-size: 14px;
+    height: 48px;
+    cursor: pointer;
+    transition: background .12s, transform .07s, border-color .12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+  }
+  button:hover  { background: #21262d; border-color: #30363d; }
+  button:active { transform: scale(.92); background: #1c2d3f; }
+
+
+  button.op    { color: #4a9eff; background: #0c1e30; border-color: #1e4976; font-size: 16px; }
+  button.fn    { color: #a371f7; background: #130f1f; border-color: #3d2a7a; font-size: 12px; }
+  button.const { color: #f7c94a; background: #191308; border-color: #5a4510; font-size: 13px; }
+  button.eq    { color: #4af7c4; background: #0a2218; border-color: #1a6b3c; font-size: 20px; }
+  button.clr   { color: #f85149; background: #1a0808; border-color: #6b1a1a; }
+  button.span2 { grid-column: span 2; }
+  button.span3 { grid-column: span 3; }
+
+  button.op:hover    { background: #122436; }
+  button.fn:hover    { background: #1e1630; }
+  button.const:hover { background: #261e0a; }
+  button.eq:hover    { background: #0e2e1e; }
+  button.clr:hover   { background: #260e0e; }
+
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: #30363d;
+    margin: 8px 0 4px 2px;
+    text-transform: uppercase;
+  }
+
+
+  .hist-panel {
+    display: none;
+    margin-top: 10px;
+    border-top: 1px solid #21262d;
+    padding-top: 10px;
+    max-height: 140px;
+    overflow-y: auto;
+  }
+  .hist-panel.open { display: block; }
+  .hist-item {
+    font-size: 11px;
+    color: #484f58;
+    padding: 3px 0;
+    border-bottom: 1px solid #161b22;
+    text-align: right;
+    cursor: pointer;
+    transition: color .1s;
+  }
+  .hist-item:hover { color: #8b949e; }
+  .hist-item:last-child { border-bottom: none; }
+
+  .hist-panel::-webkit-scrollbar { width: 3px; }
+  .hist-panel::-webkit-scrollbar-track { background: transparent; }
+  .hist-panel::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
