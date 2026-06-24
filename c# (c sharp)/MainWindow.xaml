@@ -1,0 +1,297 @@
+<Window x:Class="CalcWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculadora Científica"
+        Width="420" Height="680"
+        MinWidth="380" MinHeight="620"
+        ResizeMode="CanResize"
+        Background="#0D1117"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+
+        <SolidColorBrush x:Key="BgPrimary"    Color="#0D1117"/>
+        <SolidColorBrush x:Key="BgDisplay"    Color="#0A1929"/>
+        <SolidColorBrush x:Key="BgBtn"        Color="#161B22"/>
+        <SolidColorBrush x:Key="BgBtnHover"   Color="#21262D"/>
+        <SolidColorBrush x:Key="BgBtnOp"      Color="#0C1E30"/>
+        <SolidColorBrush x:Key="BgBtnFn"      Color="#13102A"/>
+        <SolidColorBrush x:Key="BgBtnEq"      Color="#0F3B22"/>
+        <SolidColorBrush x:Key="BgBtnClear"   Color="#2A1010"/>
+        <SolidColorBrush x:Key="BorderDisplay" Color="#1E4976"/>
+        <SolidColorBrush x:Key="BorderBtn"    Color="#30363D"/>
+        <SolidColorBrush x:Key="BorderBtnOp"  Color="#1E4976"/>
+        <SolidColorBrush x:Key="BorderBtnFn"  Color="#3D2A7A"/>
+        <SolidColorBrush x:Key="BorderBtnEq"  Color="#1A6B3C"/>
+        <SolidColorBrush x:Key="BorderBtnClr" Color="#7A2020"/>
+        <SolidColorBrush x:Key="TextDisplay"  Color="#4AF7C4"/>
+        <SolidColorBrush x:Key="TextExpr"     Color="#4A9EFF"/>
+        <SolidColorBrush x:Key="TextNum"      Color="#E6EDF3"/>
+        <SolidColorBrush x:Key="TextOp"       Color="#4A9EFF"/>
+        <SolidColorBrush x:Key="TextFn"       Color="#A371F7"/>
+        <SolidColorBrush x:Key="TextEq"       Color="#4AF7C4"/>
+        <SolidColorBrush x:Key="TextClear"    Color="#F85149"/>
+        <SolidColorBrush x:Key="TextConst"    Color="#F7C94A"/>
+        <SolidColorBrush x:Key="TextMuted"    Color="#484F58"/>
+
+        <Style x:Key="BtnBase" TargetType="Button">
+            <Setter Property="Height"               Value="46"/>
+            <Setter Property="FontFamily"           Value="Consolas"/>
+            <Setter Property="FontSize"             Value="14"/>
+            <Setter Property="Cursor"               Value="Hand"/>
+            <Setter Property="BorderThickness"      Value="1"/>
+            <Setter Property="Margin"               Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background"
+                                        Value="#21262D"/>
+                                <Setter TargetName="border" Property="BorderThickness"
+                                        Value="1.5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background"
+                                        Value="#1E4976"/>
+                                <Setter TargetName="border" Property="Opacity"
+                                        Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BtnNum" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="{StaticResource BgBtn}"/>
+            <Setter Property="BorderBrush"  Value="{StaticResource BorderBtn}"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextNum}"/>
+        </Style>
+
+        <Style x:Key="BtnOp" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="{StaticResource BgBtnOp}"/>
+            <Setter Property="BorderBrush"  Value="{StaticResource BorderBtnOp}"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextOp}"/>
+            <Setter Property="FontSize"     Value="16"/>
+        </Style>
+
+        <Style x:Key="BtnFn" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="{StaticResource BgBtnFn}"/>
+            <Setter Property="BorderBrush"  Value="{StaticResource BorderBtnFn}"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextFn}"/>
+            <Setter Property="FontSize"     Value="12"/>
+        </Style>
+
+        <Style x:Key="BtnConst" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="#1A1508"/>
+            <Setter Property="BorderBrush"  Value="#5A4510"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextConst}"/>
+            <Setter Property="FontSize"     Value="13"/>
+        </Style>
+
+        <Style x:Key="BtnEq" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="{StaticResource BgBtnEq}"/>
+            <Setter Property="BorderBrush"  Value="{StaticResource BorderBtnEq}"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextEq}"/>
+            <Setter Property="FontSize"     Value="20"/>
+            <Setter Property="FontWeight"   Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="BtnClr" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+            <Setter Property="Background"   Value="{StaticResource BgBtnClear}"/>
+            <Setter Property="BorderBrush"  Value="{StaticResource BorderBtnClr}"/>
+            <Setter Property="Foreground"   Value="{StaticResource TextClear}"/>
+            <Setter Property="FontSize"     Value="15"/>
+        </Style>
+
+        <Style x:Key="Badge" TargetType="Border">
+            <Setter Property="CornerRadius"     Value="4"/>
+            <Setter Property="Padding"          Value="6,2"/>
+            <Setter Property="Margin"           Value="0,0,6,0"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   
+            <RowDefinition Height="Auto"/>  
+            <RowDefinition Height="Auto"/>   
+            <RowDefinition Height="*"/>     
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+
+            <Border Style="{StaticResource Badge}"
+                    Background="#4A9EFF18"
+                    BorderBrush="#4A9EFF44"
+                    BorderThickness="1">
+                <TextBlock x:Name="TbModo"
+                           Text="RAD"
+                           FontFamily="Consolas"
+                           FontSize="11"
+                           Foreground="{StaticResource TextOp}"/>
+            </Border>
+
+            <Border x:Name="BadgeMemoria"
+                    Style="{StaticResource Badge}"
+                    Background="#F7C94A18"
+                    BorderBrush="#F7C94A44"
+                    BorderThickness="1"
+                    Visibility="Collapsed">
+                <TextBlock Text="M"
+                           FontFamily="Consolas"
+                           FontSize="11"
+                           Foreground="{StaticResource TextConst}"/>
+            </Border>
+
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Background="{StaticResource BgDisplay}"
+                BorderBrush="{StaticResource BorderDisplay}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="14,10"
+                Margin="0,0,0,12">
+            <StackPanel>
+
+                <TextBlock x:Name="TbExpr"
+                           Text=""
+                           FontFamily="Consolas"
+                           FontSize="12"
+                           Foreground="{StaticResource TextExpr}"
+                           TextAlignment="Right"
+                           TextTrimming="CharacterEllipsis"
+                           Opacity="0.7"
+                           MinHeight="18"
+                           Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="TbResultado"
+                           Text="0"
+                           FontFamily="Consolas"
+                           FontSize="30"
+                           FontWeight="Light"
+                           Foreground="{StaticResource TextDisplay}"
+                           TextAlignment="Right"
+                           TextTrimming="CharacterEllipsis"/>
+
+                <TextBlock x:Name="TbHistorico"
+                           Text=""
+                           FontFamily="Consolas"
+                           FontSize="11"
+                           Foreground="{StaticResource TextMuted}"
+                           TextAlignment="Right"
+                           TextTrimming="CharacterEllipsis"
+                           MinHeight="16"
+                           Margin="0,2,0,0"/>
+
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0" Content="sin"  Style="{StaticResource BtnFn}"  Tag="sin("  Click="BtnFn_Click"/>
+            <Button Grid.Column="1" Grid.Row="0" Content="cos"  Style="{StaticResource BtnFn}"  Tag="cos("  Click="BtnFn_Click"/>
+            <Button Grid.Column="2" Grid.Row="0" Content="tan"  Style="{StaticResource BtnFn}"  Tag="tan("  Click="BtnFn_Click"/>
+            <Button Grid.Column="3" Grid.Row="0" Content="√"    Style="{StaticResource BtnFn}"  Tag="sqrt(" Click="BtnFn_Click" FontSize="16"/>
+            <Button Grid.Column="4" Grid.Row="0" Content="log"  Style="{StaticResource BtnFn}"  Tag="log("  Click="BtnFn_Click"/>
+
+            <Button Grid.Column="0" Grid.Row="1" Content="asin" Style="{StaticResource BtnFn}"  Tag="asin(" Click="BtnFn_Click"/>
+            <Button Grid.Column="1" Grid.Row="1" Content="acos" Style="{StaticResource BtnFn}"  Tag="acos(" Click="BtnFn_Click"/>
+            <Button Grid.Column="2" Grid.Row="1" Content="atan" Style="{StaticResource BtnFn}"  Tag="atan(" Click="BtnFn_Click"/>
+            <Button Grid.Column="3" Grid.Row="1" Content="∛"    Style="{StaticResource BtnFn}"  Tag="cbrt(" Click="BtnFn_Click" FontSize="16"/>
+            <Button Grid.Column="4" Grid.Row="1" Content="ln"   Style="{StaticResource BtnFn}"  Tag="ln("   Click="BtnFn_Click"/>
+
+            <Button Grid.Column="0" Grid.Row="2" Content="π"    Style="{StaticResource BtnConst}" Tag="pi"  Click="BtnConst_Click" FontSize="16"/>
+            <Button Grid.Column="1" Grid.Row="2" Content="e"    Style="{StaticResource BtnConst}" Tag="e"   Click="BtnConst_Click"/>
+            <Button Grid.Column="2" Grid.Row="2" Content="|x|"  Style="{StaticResource BtnFn}"  Tag="abs("  Click="BtnFn_Click"/>
+            <Button Grid.Column="3" Grid.Row="2" Content="eˣ"   Style="{StaticResource BtnFn}"  Tag="exp("  Click="BtnFn_Click"/>
+            <Button Grid.Column="4" Grid.Row="2" Content="log₂" Style="{StaticResource BtnFn}"  Tag="log2(" Click="BtnFn_Click" FontSize="11"/>
+
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0" Content="C"   Style="{StaticResource BtnClr}" Click="BtnClear_Click"/>
+            <Button Grid.Column="1" Grid.Row="0" Content="⌫"   Style="{StaticResource BtnClr}" Click="BtnBack_Click"  FontSize="16"/>
+            <Button Grid.Column="2" Grid.Row="0" Content="%"   Style="{StaticResource BtnOp}"  Tag="%"  Click="BtnOp_Click"/>
+            <Button Grid.Column="3" Grid.Row="0" Content="^"   Style="{StaticResource BtnOp}"  Tag="^"  Click="BtnOp_Click"/>
+            <Button Grid.Column="4" Grid.Row="0" Content="( )" Style="{StaticResource BtnOp}"  Click="BtnParen_Click" FontSize="12"/>
+
+            <Button Grid.Column="0" Grid.Row="1" Content="7"   Style="{StaticResource BtnNum}" Tag="7"  Click="BtnNum_Click"/>
+            <Button Grid.Column="1" Grid.Row="1" Content="8"   Style="{StaticResource BtnNum}" Tag="8"  Click="BtnNum_Click"/>
+            <Button Grid.Column="2" Grid.Row="1" Content="9"   Style="{StaticResource BtnNum}" Tag="9"  Click="BtnNum_Click"/>
+            <Button Grid.Column="3" Grid.Row="1" Content="×"   Style="{StaticResource BtnOp}"  Tag="*"  Click="BtnOp_Click"/>
+            <Button Grid.Column="4" Grid.Row="1"
+                    Style="{StaticResource BtnFn}"
+                    Click="BtnModo_Click">
+                <TextBlock x:Name="TbBtnModo" Text="DEG" FontFamily="Consolas" FontSize="11"
+                           Foreground="{StaticResource TextFn}"/>
+            </Button>
+
+            <Button Grid.Column="0" Grid.Row="2" Content="4"   Style="{StaticResource BtnNum}" Tag="4"  Click="BtnNum_Click"/>
+            <Button Grid.Column="1" Grid.Row="2" Content="5"   Style="{StaticResource BtnNum}" Tag="5"  Click="BtnNum_Click"/>
+            <Button Grid.Column="2" Grid.Row="2" Content="6"   Style="{StaticResource BtnNum}" Tag="6"  Click="BtnNum_Click"/>
+            <Button Grid.Column="3" Grid.Row="2" Content="÷"   Style="{StaticResource BtnOp}"  Tag="/"  Click="BtnOp_Click"/>
+            <Button Grid.Column="4" Grid.Row="2" Content="ans" Style="{StaticResource BtnConst}" Tag="ans" Click="BtnConst_Click" FontSize="12"/>
+
+            <Button Grid.Column="0" Grid.Row="3" Content="1"   Style="{StaticResource BtnNum}" Tag="1"  Click="BtnNum_Click"/>
+            <Button Grid.Column="1" Grid.Row="3" Content="2"   Style="{StaticResource BtnNum}" Tag="2"  Click="BtnNum_Click"/>
+            <Button Grid.Column="2" Grid.Row="3" Content="3"   Style="{StaticResource BtnNum}" Tag="3"  Click="BtnNum_Click"/>
+            <Button Grid.Column="3" Grid.Row="3" Content="−"   Style="{StaticResource BtnOp}"  Tag="-"  Click="BtnOp_Click"/>
+            <Button Grid.Column="4" Grid.Row="3" Content="MS"  Style="{StaticResource BtnConst}" Tag="ms" Click="BtnMem_Click" FontSize="12"/>
+
+            <Button Grid.Column="0" Grid.Row="4" Content="0"   Style="{StaticResource BtnNum}" Tag="0"  Click="BtnNum_Click"/>
+            <Button Grid.Column="1" Grid.Row="4" Content="."   Style="{StaticResource BtnNum}" Tag="."  Click="BtnNum_Click"/>
+
+            <Button Grid.Column="2" Grid.Row="4"
+                    Grid.ColumnSpan="2"
+                    Content="="
+                    Style="{StaticResource BtnEq}"
+                    Click="BtnIgual_Click"/>
+
+            <Button Grid.Column="4" Grid.Row="4" Content="+"   Style="{StaticResource BtnOp}"  Tag="+"  Click="BtnOp_Click"/>
+
+        </Grid>
+
+    </Grid>
+</Window>
