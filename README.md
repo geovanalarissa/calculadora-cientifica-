@@ -5,3 +5,6 @@ Esse repositório possui arquivos estáticos para demonstrar como seria uma calc
 link da demonstração: https://geovanalarissa.github.io/calculadora-cientifica-/
 
 A pasta "c#" refere-se ao código da calculadora científica que foi construído com o c# e o xaml. Na parte "Realeases", a direita da interface do github, está localizado o arquivo executável da atividade/projeto. 
+
+* As pastas "bin" e "obj" padrões desse tipo de projeto não estão incluídas nesse repositório visto o quão desnecessárias essas são.
+  
